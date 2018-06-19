@@ -1,4 +1,4 @@
-#' This function estimates a multiplicative mixed-frequency GARCH model
+#' This function estimates a multiplicative mixed-frequency GARCH model. For the sake of numerical stability, it is best to multiply log returns by 100.
 #' @param data data frame containing a column named date of type 'Date'.
 #' @param y name of high frequency dependent variable in df.
 #' @param x covariate employed in mfGARCH.
@@ -22,6 +22,8 @@
 #' @examples \dontrun{fit_mfgarch(data = df_financial, y = "return", x = "nfci", low.freq = "week", K = 52)}
 
 fit_mfgarch <- function(data, y, x = NULL, K = NULL, low.freq = "date", var.ratio.freq = NULL, gamma = TRUE, weighting = "beta.restricted") {
+
+  print("For ensuring numerical stability of the parameter optimization and inversion of the Hessian, it is best to multiply log returns by 100.")
 
   if (weighting %in% c("beta.restricted", "beta.unrestricted") == FALSE) {
     stop("Incorrect weighting scheme specified - options are \"beta.restricted\" and \"beta.unrestricted\".")
@@ -168,7 +170,12 @@ fit_mfgarch <- function(data, y, x = NULL, K = NULL, low.freq = "date", var.rati
       tau <- rep(exp(par["m"]), times = length(g))
     }
 
-    df.fitted <- cbind(data[c("date", y)], g = g, tau = tau)
+    if ((var.ratio.freq %in% c("date", "low.freq")) == FALSE) {
+      df.fitted <- cbind(data[c("date", y, var.ratio.freq)], g = g, tau = tau)
+    } else {
+      df.fitted <- cbind(data[c("date", y)], g = g, tau = tau)
+    }
+
     df.fitted$residuals <- unlist((df.fitted[y] - par["mu"]) / sqrt(df.fitted$g * df.fitted$tau))
   } else { # if K > 0 we get the covariate series
     covariate <- unlist(unique(data[c(low.freq, x)])[x])
@@ -236,8 +243,12 @@ fit_mfgarch <- function(data, y, x = NULL, K = NULL, low.freq = "date", var.rati
                          as.numeric(na.exclude((returns - par["mu"])/sqrt(tau))), g0 = g_zero))
     }
 
+    if ((var.ratio.freq %in% c("date", "low.freq")) == FALSE) {
+      df.fitted <- cbind(data[c("date", y, low.freq, x, var.ratio.freq)], g = g, tau = tau)
+    } else {
+      df.fitted <- cbind(data[c("date", y, low.freq, x)], g = g, tau = tau)
+    }
 
-    df.fitted <- cbind(data[c("date", y, low.freq, x)], g = g, tau = tau)
     df.fitted$residuals <- unlist((df.fitted[y] - par["mu"]) / sqrt(df.fitted$g * df.fitted$tau))
 
   }
@@ -408,7 +419,11 @@ fit_mfgarch <- function(data, y, x = NULL, K = NULL, low.freq = "date", var.rati
                          g0 = g_zero))
     }
 
-    df.fitted <- cbind(data[c("date", y, low.freq, x)], g = g, tau = tau)
+    if ((var.ratio.freq %in% c("date", "low.freq")) == FALSE) {
+      df.fitted <- cbind(data[c("date", y, low.freq, x, var.ratio.freq)], g = g, tau = tau)
+    } else {
+      df.fitted <- cbind(data[c("date", y, low.freq, x)], g = g, tau = tau)
+    }
 
     df.fitted$residuals <- unlist((df.fitted[y] - par["mu"]) / sqrt(df.fitted$g * df.fitted$tau))
 
