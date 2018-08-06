@@ -2,10 +2,10 @@
 % Please edit documentation in R/simulate_mfgarch.R
 \name{simulate_mfgarch}
 \alias{simulate_mfgarch}
-\title{This function simulates a GARCH-MIDAS model}
+\title{This function simulates a GARCH-MIDAS model. Innovations can follow a standard normal or student-t distribution.}
 \usage{
-simulate_mfgarch(n.days, mu, alpha, beta, gamma, m, theta, w1 = 1, w2, K, psi,
-  sigma.psi, low.freq = 1, student.t = NULL)
+simulate_mfgarch(n.days, mu, alpha, beta, gamma, m, theta, w1 = 1, w2, K,
+  psi, sigma.psi, low.freq = 1, n.intraday = 288, student.t = NULL)
 }
 \arguments{
 \item{n.days}{number of days}
@@ -34,13 +34,15 @@ simulate_mfgarch(n.days, mu, alpha, beta, gamma, m, theta, w1 = 1, w2, K, psi,
 
 \item{low.freq}{number of days per low-frequency period}
 
-\item{student.t}{student.t}
+\item{n.intraday}{number of maximum intraday returns}
+
+\item{student.t}{either NULL or degrees of freedom}
 }
 \description{
-This function simulates a GARCH-MIDAS model
+This function simulates a GARCH-MIDAS model. Innovations can follow a standard normal or student-t distribution.
 }
 \examples{
 simulate_mfgarch(n.days = 200, mu = 0, alpha = 0.06, beta = 0.92, gamma = 0, m = 0,
-theta = 0.1, w1 = 1, w2 = 3, K = 12, psi = 0.98, sigma.psi = 0.1, low.freq = 100, student.t = NULL)
+theta = 0.1, w1 = 1, w2 = 3, K = 12, psi = 0.98, sigma.psi = 0.1, low.freq = 100)
 }
 \keyword{simulate_mfgarch}
