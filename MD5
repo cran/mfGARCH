@@ -1,10 +1,10 @@
-7d1f9d8ae333b1cf9440dbf629fc3d9a *DESCRIPTION
+485a9e6881963f293ce5e42825db2674 *DESCRIPTION
 12d187d9223ffeb06ccaa360906ac410 *LICENSE
 c7ed5b48d891640aaf0aa07dfbebf538 *NAMESPACE
-30373ea658b144fc2ff940df9ff76c0a *NEWS.md
+a60b8f2e52fd13964279cbcf9d391a30 *NEWS.md
 332d5a157f07f34029658e56aeb4d9f4 *R/RcppExports.R
 c804a9f7d05d549005fb7bf65bea9142 *R/data.R
-4e9f38a68bf74d33effe91967485bfe1 *R/fit_mfgarch.R
+a4b53103c1691259d7be17b9e1112eeb *R/fit_mfgarch.R
 6f93a866114e60399d8f02a22de1ab69 *R/generic_functions.R
 5ffeba84f39e164a46e3db36b68b3a16 *R/help.R
 179d1dabc21f868ab83cd7ffaff08bdb *R/helper_functions.R
